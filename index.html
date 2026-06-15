@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a6b3c">
+  <meta name="description" content="جمعية الهدى لتحفيظ القرآن الكريم - الدورة الصيفية 2026">
+  <title>جمعية الهدى - الدورة الصيفية 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- APP HEADER -->
+<header class="app-header">
+  <div class="header-content">
+    <div class="logo-area">
+      <div class="logo-svg">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="38" fill="#1a6b3c" stroke="#d4af37" stroke-width="2.5"/>
+          <circle cx="40" cy="40" r="33" fill="none" stroke="#d4af37" stroke-width="1" stroke-dasharray="3,3"/>
+          <rect x="22" y="26" width="36" height="28" rx="2" fill="#d4af37" opacity="0.9"/>
+          <rect x="22" y="26" width="17" height="28" rx="1" fill="#c9a227"/>
+          <line x1="39" y1="26" x2="39" y2="54" stroke="#1a6b3c" stroke-width="1.5"/>
+          <line x1="26" y1="33" x2="36" y2="33" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+          <line x1="26" y1="37" x2="36" y2="37" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+          <line x1="26" y1="41" x2="36" y2="41" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+          <line x1="26" y1="45" x2="36" y2="45" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+          <line x1="42" y1="33" x2="54" y2="33" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+          <line x1="42" y1="37" x2="54" y2="37" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+          <line x1="42" y1="41" x2="54" y2="41" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+          <line x1="42" y1="45" x2="54" y2="45" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+          <text x="40" y="22" text-anchor="middle" fill="#d4af37" font-size="8">☪</text>
+        </svg>
+      </div>
+      <div class="header-text">
+        <h1 class="header-title">جمعية الهدى لتحفيظ القرآن الكريم</h1>
+        <p class="header-subtitle">الدورة الصيفية 2026</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav class="bottom-nav" id="mainNav">
+  <button class="nav-btn active" onclick="showPage('home')" title="الرئيسية">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">الرئيسية</span>
+  </button>
+  <button class="nav-btn" onclick="showPage('register')" title="تسجيل">
+    <span class="nav-icon">✏️</span>
+    <span class="nav-label">تسجيل</span>
+  </button>
+  <button class="nav-btn" onclick="showPage('list')" title="المسجلون">
+    <span class="nav-icon">👥</span>
+    <span class="nav-label">المسجلون</span>
+  </button>
+  <button class="nav-btn" onclick="showPage('bus')" title="الحافلة">
+    <span class="nav-icon">🚌</span>
+    <span class="nav-label">الحافلة</span>
+  </button>
+  <button class="nav-btn" onclick="showPage('finance')" title="المالية">
+    <span class="nav-icon">💰</span>
+    <span class="nav-label">المالية</span>
+  </button>
+  <button class="nav-btn" onclick="showPage('reports')" title="التقارير">
+    <span class="nav-icon">📊</span>
+    <span class="nav-label">التقارير</span>
+  </button>
+</nav>
+
+<!-- PAGES -->
+<main class="app-main">
+
+  <!-- HOME PAGE -->
+  <div id="page-home" class="page active">
+    <div class="page-header">
+      <h2 class="page-title">لوحة التحكم</h2>
+      <p class="page-subtitle">نظرة عامة على الدورة الصيفية</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card primary">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value" id="stat-total">0</div>
+        <div class="stat-label">إجمالي المسجلين</div>
+      </div>
+      <div class="stat-card male">
+        <div class="stat-icon">👦</div>
+        <div class="stat-value" id="stat-males">0</div>
+        <div class="stat-label">الذكور</div>
+      </div>
+      <div class="stat-card female">
+        <div class="stat-icon">👧</div>
+        <div class="stat-value" id="stat-females">0</div>
+        <div class="stat-label">الإناث</div>
+      </div>
+      <div class="stat-card bus">
+        <div class="stat-icon">🚌</div>
+        <div class="stat-value" id="stat-bus">0</div>
+        <div class="stat-label">مستفيدو الحافلة</div>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <h3 class="section-title">الإجراءات السريعة</h3>
+      <div class="action-grid">
+        <button class="action-btn" onclick="showPage('register')">
+          <span class="action-icon">📝</span>
+          <span>تسجيل مشارك جديد</span>
+        </button>
+        <button class="action-btn" onclick="showPage('list')">
+          <span class="action-icon">📋</span>
+          <span>قائمة المسجلين</span>
+        </button>
+        <button class="action-btn" onclick="showPage('bus')">
+          <span class="action-icon">🚌</span>
+          <span>الحافلة</span>
+        </button>
+        <button class="action-btn" onclick="showPage('finance')">
+          <span class="action-icon">💰</span>
+          <span>المالية</span>
+        </button>
+        <button class="action-btn" onclick="showPage('reports')">
+          <span class="action-icon">📊</span>
+          <span>التقارير</span>
+        </button>
+        <button class="action-btn" onclick="openReceiptPrinter()">
+          <span class="action-icon">🖨️</span>
+          <span>طباعة الوصل</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="recent-section">
+      <h3 class="section-title">آخر التسجيلات</h3>
+      <div id="recent-list" class="recent-list">
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          <p>لا توجد تسجيلات بعد</p>
+          <button onclick="showPage('register')" class="btn-primary">تسجيل مشارك جديد</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTER PAGE -->
+  <div id="page-register" class="page">
+    <div class="page-header">
+      <h2 class="page-title" id="form-title">تسجيل مشارك جديد</h2>
+    </div>
+
+    <div class="form-container">
+      <input type="hidden" id="edit-id">
+
+      <div class="form-section">
+        <h3 class="form-section-title">🪪 البيانات الشخصية</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>رقم التسجيل</label>
+            <input type="text" id="f-regnum" readonly class="readonly-input" placeholder="تلقائي">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>الاسم الكامل <span class="required">*</span></label>
+            <input type="text" id="f-name" placeholder="أدخل الاسم الكامل">
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label>تاريخ الميلاد <span class="required">*</span></label>
+            <input type="date" id="f-dob" onchange="calcAge()">
+          </div>
+          <div class="form-group">
+            <label>العمر</label>
+            <input type="text" id="f-age" readonly class="readonly-input" placeholder="تلقائي">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>الجنس <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="gender" value="ذكر" onchange="updateGroups()">
+                <span>👦 ذكر</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="gender" value="أنثى" onchange="updateGroups()">
+                <span>👧 أنثى</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3 class="form-section-title">📚 بيانات الدراسة</h3>
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label>الحلقة <span class="required">*</span></label>
+            <select id="f-group">
+              <option value="">-- اختر الحلقة --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>المستوى الدراسي</label>
+            <select id="f-level">
+              <option value="">-- اختر المستوى --</option>
+              <option>ما قبل المدرسة</option>
+              <option>السنة الأولى ابتدائي</option>
+              <option>السنة الثانية ابتدائي</option>
+              <option>السنة الثالثة ابتدائي</option>
+              <option>السنة الرابعة ابتدائي</option>
+              <option>السنة الخامسة ابتدائي</option>
+              <option>السنة السادسة ابتدائي</option>
+              <option>السنة الأولى إعدادي</option>
+              <option>السنة الثانية إعدادي</option>
+              <option>السنة الثالثة إعدادي</option>
+              <option>السنة الأولى ثانوي</option>
+              <option>السنة الثانية ثانوي</option>
+              <option>السنة الثالثة ثانوي</option>
+              <option>جامعي</option>
+              <option>أخرى</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3 class="form-section-title">👨‍👩‍👦 بيانات الولي</h3>
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label>اسم الولي <span class="required">*</span></label>
+            <input type="text" id="f-guardian" placeholder="اسم ولي الأمر">
+          </div>
+          <div class="form-group">
+            <label>هاتف الولي <span class="required">*</span></label>
+            <input type="tel" id="f-phone" placeholder="0612345678" dir="ltr">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>العنوان</label>
+            <input type="text" id="f-address" placeholder="العنوان الكامل">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3 class="form-section-title">🚌 الحافلة</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>الاستفادة من الحافلة</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="bus" value="نعم" onchange="calcFinance()">
+                <span>✅ نعم</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="bus" value="لا" checked onchange="calcFinance()">
+                <span>❌ لا</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section finance-section">
+        <h3 class="form-section-title">💰 المعلومات المالية</h3>
+        <div class="form-row three-col">
+          <div class="form-group">
+            <label>رسوم التسجيل (درهم)</label>
+            <input type="number" id="f-regfee" value="100" onchange="calcFinance()" min="0">
+          </div>
+          <div class="form-group">
+            <label>رسوم الحافلة (درهم)</label>
+            <input type="number" id="f-busfee" value="300" readonly class="readonly-input">
+          </div>
+          <div class="form-group">
+            <label>المجموع المستحق (درهم)</label>
+            <input type="number" id="f-total" readonly class="readonly-input highlight-input">
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div class="form-group">
+            <label>المبلغ المؤدى (درهم)</label>
+            <input type="number" id="f-paid" value="0" onchange="calcFinance()" min="0">
+          </div>
+          <div class="form-group">
+            <label>المبلغ المتبقي (درهم)</label>
+            <input type="number" id="f-remaining" readonly class="readonly-input danger-input">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3 class="form-section-title">📝 ملاحظات</h3>
+        <div class="form-row">
+          <div class="form-group full">
+            <textarea id="f-notes" rows="3" placeholder="أي ملاحظات إضافية..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary" onclick="saveParticipant()">💾 حفظ التسجيل</button>
+        <button class="btn-secondary" onclick="resetForm()">🔄 إعادة تعيين</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST PAGE -->
+  <div id="page-list" class="page">
+    <div class="page-header">
+      <h2 class="page-title">قائمة المسجلين</h2>
+    </div>
+
+    <div class="list-controls">
+      <input type="text" id="search-input" placeholder="🔍 بحث بالاسم أو الرقم..." oninput="filterList()" class="search-input">
+      <div class="filter-btns">
+        <button class="filter-btn active" onclick="filterGender('all', this)">الكل</button>
+        <button class="filter-btn" onclick="filterGender('ذكر', this)">الذكور</button>
+        <button class="filter-btn" onclick="filterGender('أنثى', this)">الإناث</button>
+      </div>
+    </div>
+
+    <div class="list-export">
+      <button class="btn-outline" onclick="exportPDF()">📄 PDF</button>
+      <button class="btn-outline" onclick="exportExcel()">📊 Excel</button>
+      <button class="btn-outline" onclick="printList()">🖨️ طباعة</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="data-table" id="participants-table">
+        <thead>
+          <tr>
+            <th>الرقم</th>
+            <th>الاسم</th>
+            <th>الجنس</th>
+            <th>الحلقة</th>
+            <th>المستوى</th>
+            <th>الولي</th>
+            <th>الهاتف</th>
+            <th>العنوان</th>
+            <th>الحافلة</th>
+            <th>المؤدى</th>
+            <th>الباقي</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+      <div id="list-empty" class="empty-state" style="display:none">
+        <div class="empty-icon">📭</div>
+        <p>لا توجد نتائج</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUS PAGE -->
+  <div id="page-bus" class="page">
+    <div class="page-header">
+      <h2 class="page-title">قائمة الحافلة</h2>
+      <button class="btn-print" onclick="printBus()">🖨️ طباعة للسائق</button>
+    </div>
+
+    <div class="bus-sections">
+      <div class="bus-section male-section">
+        <h3 class="bus-section-title">
+          <span class="bus-badge male">👦 الذكور</span>
+          <span class="bus-count" id="bus-male-count">0</span>
+        </h3>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>الرقم</th>
+                <th>الاسم</th>
+                <th>الحلقة</th>
+                <th>هاتف الولي</th>
+                <th>العنوان</th>
+              </tr>
+            </thead>
+            <tbody id="bus-males-body"></tbody>
+          </table>
+          <div id="bus-males-empty" class="empty-state" style="display:none">
+            <p>لا يوجد ذكور مستفيدون من الحافلة</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bus-section female-section">
+        <h3 class="bus-section-title">
+          <span class="bus-badge female">👧 الإناث</span>
+          <span class="bus-count" id="bus-female-count">0</span>
+        </h3>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>الرقم</th>
+                <th>الاسم</th>
+                <th>الحلقة</th>
+                <th>هاتف الولي</th>
+                <th>العنوان</th>
+              </tr>
+            </thead>
+            <tbody id="bus-females-body"></tbody>
+          </table>
+          <div id="bus-females-empty" class="empty-state" style="display:none">
+            <p>لا توجد إناث مستفيدات من الحافلة</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINANCE PAGE -->
+  <div id="page-finance" class="page">
+    <div class="page-header">
+      <h2 class="page-title">المالية</h2>
+    </div>
+
+    <div class="finance-stats">
+      <div class="finance-card">
+        <div class="finance-icon">👥</div>
+        <div class="finance-value" id="fin-total">0</div>
+        <div class="finance-label">عدد المسجلين</div>
+      </div>
+      <div class="finance-card">
+        <div class="finance-icon">🚌</div>
+        <div class="finance-value" id="fin-bus">0</div>
+        <div class="finance-label">مستفيدو الحافلة</div>
+      </div>
+      <div class="finance-card green">
+        <div class="finance-icon">💵</div>
+        <div class="finance-value" id="fin-reg-sum">0</div>
+        <div class="finance-label">مجموع رسوم التسجيل</div>
+      </div>
+      <div class="finance-card blue">
+        <div class="finance-icon">🚌</div>
+        <div class="finance-value" id="fin-bus-sum">0</div>
+        <div class="finance-label">مجموع رسوم الحافلة</div>
+      </div>
+      <div class="finance-card gold">
+        <div class="finance-icon">💰</div>
+        <div class="finance-value" id="fin-income">0</div>
+        <div class="finance-label">مجموع المداخيل المؤداة</div>
+      </div>
+      <div class="finance-card red">
+        <div class="finance-icon">⏳</div>
+        <div class="finance-value" id="fin-remaining">0</div>
+        <div class="finance-label">مجموع الباقي غير المؤدى</div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h3 class="section-title">📊 الرسوم البيانية</h3>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h4>توزيع الجنس</h4>
+          <canvas id="chart-gender" width="280" height="200"></canvas>
+        </div>
+        <div class="chart-card">
+          <h4>الوضع المالي (درهم)</h4>
+          <canvas id="chart-finance" width="280" height="200"></canvas>
+        </div>
+        <div class="chart-card">
+          <h4>توزيع الحلقات</h4>
+          <canvas id="chart-groups" width="280" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORTS PAGE -->
+  <div id="page-reports" class="page">
+    <div class="page-header">
+      <h2 class="page-title">التقارير والإحصائيات</h2>
+    </div>
+
+    <div class="reports-grid">
+      <div class="report-card">
+        <h3>📊 الإحصائيات العامة</h3>
+        <table class="report-table">
+          <tbody>
+            <tr><td>عدد الذكور</td><td id="rep-males" class="rep-val">0</td></tr>
+            <tr><td>عدد الإناث</td><td id="rep-females" class="rep-val">0</td></tr>
+            <tr><td>مستفيدو الحافلة</td><td id="rep-bus" class="rep-val">0</td></tr>
+            <tr><td>إجمالي المسجلين</td><td id="rep-total" class="rep-val">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="report-card">
+        <h3>👦 حلقات الذكور</h3>
+        <table class="report-table">
+          <tbody>
+            <tr><td>الزبير بن العوام</td><td id="rep-g1" class="rep-val">0</td></tr>
+            <tr><td>عبد الله بن مسعود</td><td id="rep-g2" class="rep-val">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="report-card">
+        <h3>👧 حلقات الإناث</h3>
+        <table class="report-table">
+          <tbody>
+            <tr><td>أم المؤمنين عائشة</td><td id="rep-g3" class="rep-val">0</td></tr>
+            <tr><td>أم المؤمنين أم سلمة</td><td id="rep-g4" class="rep-val">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="report-card">
+        <h3>💰 المداخيل</h3>
+        <table class="report-table">
+          <tbody>
+            <tr><td>رسوم التسجيل (مستحقة)</td><td id="rep-reg-due" class="rep-val">0 درهم</td></tr>
+            <tr><td>رسوم الحافلة (مستحقة)</td><td id="rep-bus-due" class="rep-val">0 درهم</td></tr>
+            <tr><td>المجموع المستحق</td><td id="rep-total-due" class="rep-val">0 درهم</td></tr>
+            <tr><td>المؤدى</td><td id="rep-paid" class="rep-val">0 درهم</td></tr>
+            <tr><td>المتبقي</td><td id="rep-left" class="rep-val danger">0 درهم</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:20px">
+      <button class="btn-primary" onclick="printReports()">🖨️ طباعة التقرير</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- RECEIPT MODAL -->
+<div id="receipt-modal" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <div id="receipt-content">
+      <div class="receipt-header">
+        <div class="receipt-logo">
+          <svg viewBox="0 0 80 80" width="70" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="38" fill="#1a6b3c" stroke="#d4af37" stroke-width="2.5"/>
+            <circle cx="40" cy="40" r="33" fill="none" stroke="#d4af37" stroke-width="1" stroke-dasharray="3,3"/>
+            <rect x="22" y="26" width="36" height="28" rx="2" fill="#d4af37" opacity="0.9"/>
+            <rect x="22" y="26" width="17" height="28" rx="1" fill="#c9a227"/>
+            <line x1="39" y1="26" x2="39" y2="54" stroke="#1a6b3c" stroke-width="1.5"/>
+            <line x1="26" y1="33" x2="36" y2="33" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+            <line x1="26" y1="37" x2="36" y2="37" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+            <line x1="26" y1="41" x2="36" y2="41" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+            <line x1="42" y1="33" x2="54" y2="33" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+            <line x1="42" y1="37" x2="54" y2="37" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+            <line x1="42" y1="41" x2="54" y2="41" stroke="#1a6b3c" stroke-width="1" opacity="0.7"/>
+            <text x="40" y="22" text-anchor="middle" fill="#d4af37" font-size="8">☪</text>
+          </svg>
+        </div>
+        <div class="receipt-org">
+          <p class="receipt-org-name">جمعية الهدى لتحفيظ القرآن الكريم</p>
+          <p class="receipt-org-sub">الدورة الصيفية 2026</p>
+          <p class="receipt-doc-title">وصل تسجيل</p>
+        </div>
+      </div>
+      <div class="receipt-divider"></div>
+      <table class="receipt-table">
+        <tr><td>رقم التسجيل</td><td id="r-regnum" class="receipt-val"></td></tr>
+        <tr><td>الاسم الكامل</td><td id="r-name" class="receipt-val"></td></tr>
+        <tr><td>الجنس</td><td id="r-gender" class="receipt-val"></td></tr>
+        <tr><td>الحلقة</td><td id="r-group" class="receipt-val"></td></tr>
+        <tr><td>المبلغ المؤدى</td><td id="r-paid" class="receipt-val receipt-amount"></td></tr>
+      </table>
+      <div class="receipt-divider"></div>
+      <div class="receipt-footer">
+        <p>التاريخ: <span id="r-date"></span></p>
+        <p>بارك الله فيكم ونفع بكم</p>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="printReceipt()">🖨️ طباعة الوصل</button>
+      <button class="btn-secondary" onclick="closeModal()">✖ إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<!-- RECEIPT SEARCH MODAL -->
+<div id="receipt-search-modal" class="modal-overlay" style="display:none">
+  <div class="modal-box small">
+    <h3 class="modal-title">طباعة الوصل</h3>
+    <p>ابحث عن المشارك لطباعة وصله</p>
+    <input type="text" id="receipt-search-input" placeholder="أدخل الاسم أو رقم التسجيل..." oninput="searchForReceipt()" class="search-input">
+    <div id="receipt-search-results" class="receipt-search-results"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeReceiptSearch()">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE MODAL -->
+<div id="confirm-modal" class="modal-overlay" style="display:none">
+  <div class="modal-box small">
+    <h3 class="modal-title danger">⚠️ تأكيد الحذف</h3>
+    <p>هل أنت متأكد من حذف هذا المشارك؟ لا يمكن التراجع عن هذا الإجراء.</p>
+    <div class="modal-actions">
+      <button class="btn-danger" onclick="confirmDelete()">🗑️ حذف</button>
+      <button class="btn-secondary" onclick="closeConfirmModal()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

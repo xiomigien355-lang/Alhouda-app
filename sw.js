@@ -3,13 +3,16 @@
  * Enables offline functionality
  */
 
-const CACHE_NAME = 'alhuda-2026-v1';
+const CACHE_NAME = 'alhuda-2026-v2';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './app.js',
   './manifest.json',
+  './logo.png',
+  './icon-192.png',
+  './icon-512.png',
   'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;800&display=swap'
 ];
 

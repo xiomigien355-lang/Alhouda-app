@@ -6,22 +6,21 @@
 
 // ===================== DATA STORE =====================
 const STORE_KEY = 'alhuda_2026_participants';
+const GROUPS_KEY = 'alhuda_2026_groups';
 const SETTINGS_KEY = 'alhuda_2026_settings';
 
 let participants = [];
+let groups = []; // [{id, name, gender}]
 let deleteTarget = null;
+let deleteGroupTarget = null;
 let currentFilter = 'all';
 
-const GROUPS = {
-  'ذكر': [
-    'الزبير بن العوام رضي الله عنه',
-    'عبد الله بن مسعود رضي الله عنه'
-  ],
-  'أنثى': [
-    'أم المؤمنين عائشة رضي الله عنها',
-    'أم المؤمنين أم سلمة رضي الله عنها'
-  ]
-};
+const DEFAULT_GROUPS = [
+  { id: 'g1', name: 'الزبير بن العوام رضي الله عنه', gender: 'ذكر' },
+  { id: 'g2', name: 'عبد الله بن مسعود رضي الله عنه', gender: 'ذكر' },
+  { id: 'g3', name: 'أم المؤمنين عائشة رضي الله عنها', gender: 'أنثى' },
+  { id: 'g4', name: 'أم المؤمنين أم سلمة رضي الله عنها', gender: 'أنثى' }
+];
 
 const DEFAULT_REG_FEE = 100;
 const DEFAULT_BUS_FEE = 300;
@@ -29,6 +28,7 @@ const DEFAULT_BUS_FEE = 300;
 // ===================== INIT =====================
 document.addEventListener('DOMContentLoaded', () => {
   loadData();
+  loadGroups();
   updateDashboard();
   calcFinance();
   updateGroups();
@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderBus();
   renderFinance();
   renderReports();
+  renderGroupsPage();
 });
 
 // ===================== STORAGE =====================
@@ -57,6 +58,24 @@ function saveData() {
   }
 }
 
+function loadGroups() {
+  try {
+    const raw = localStorage.getItem(GROUPS_KEY);
+    groups = raw ? JSON.parse(raw) : [...DEFAULT_GROUPS];
+    if (!groups || groups.length === 0) groups = [...DEFAULT_GROUPS];
+  } catch (e) {
+    groups = [...DEFAULT_GROUPS];
+  }
+}
+
+function saveGroups() {
+  try {
+    localStorage.setItem(GROUPS_KEY, JSON.stringify(groups));
+  } catch (e) {
+    showToast('خطأ في حفظ الأفواج', 'error');
+  }
+}
+
 // ===================== NAVIGATION =====================
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -72,6 +91,7 @@ function showPage(name) {
   if (name === 'reports') renderReports();
   if (name === 'home') updateDashboard();
   if (name === 'register') { resetForm(); setRegNum(); }
+  if (name === 'groups') renderGroupsPage();
 
   window.scrollTo(0, 0);
 }
@@ -132,23 +152,14 @@ function updateGroups() {
   const select = document.getElementById('f-group');
   const current = select.value;
   select.innerHTML = '<option value="">-- اختر الحلقة --</option>';
-  if (gender && GROUPS[gender]) {
-    GROUPS[gender].forEach(g => {
-      const opt = document.createElement('option');
-      opt.value = g;
-      opt.textContent = g;
-      if (g === current) opt.selected = true;
-      select.appendChild(opt);
-    });
-  } else {
-    Object.values(GROUPS).flat().forEach(g => {
-      const opt = document.createElement('option');
-      opt.value = g;
-      opt.textContent = g;
-      if (g === current) opt.selected = true;
-      select.appendChild(opt);
-    });
-  }
+  const list = gender ? groups.filter(g => g.gender === gender) : groups;
+  list.forEach(g => {
+    const opt = document.createElement('option');
+    opt.value = g.name;
+    opt.textContent = g.name;
+    if (g.name === current) opt.selected = true;
+    select.appendChild(opt);
+  });
 }
 
 function calcAge() {
@@ -610,15 +621,15 @@ function drawCharts() {
     ['#1a6b3c', '#dc2626']
   );
 
-  const g1 = participants.filter(p => p.group.includes('الزبير')).length;
-  const g2 = participants.filter(p => p.group.includes('ابن مسعود')).length;
-  const g3 = participants.filter(p => p.group.includes('عائشة')).length;
-  const g4 = participants.filter(p => p.group.includes('أم سلمة')).length;
+  const groupColors = ['#2563eb', '#1e40af', '#db2777', '#9d174d', '#0d9b00', '#c9981f', '#7c3aed', '#ea580c'];
+  const groupLabels = groups.map(g => g.name.split(' ').slice(0, 2).join(' '));
+  const groupCounts = groups.map(g => participants.filter(p => p.group === g.name).length);
+  const groupColorsUsed = groups.map((g, i) => groupColors[i % groupColors.length]);
 
   drawBarChart('chart-groups',
-    ['الزبير', 'ابن مسعود', 'عائشة', 'أم سلمة'],
-    [g1, g2, g3, g4],
-    ['#2563eb', '#1e40af', '#db2777', '#9d174d']
+    groupLabels,
+    groupCounts,
+    groupColorsUsed
   );
 }
 
@@ -729,11 +740,6 @@ function renderReports() {
   const busCount = participants.filter(p => p.bus === 'نعم').length;
   const total = participants.length;
 
-  const g1 = participants.filter(p => p.group.includes('الزبير')).length;
-  const g2 = participants.filter(p => p.group.includes('ابن مسعود')).length;
-  const g3 = participants.filter(p => p.group.includes('عائشة')).length;
-  const g4 = participants.filter(p => p.group.includes('أم سلمة')).length;
-
   const regDue = participants.reduce((s, p) => s + (p.regFee || 0), 0);
   const busDue = participants.reduce((s, p) => s + (p.busFee || 0), 0);
   const totalDue = participants.reduce((s, p) => s + (p.total || 0), 0);
@@ -744,10 +750,22 @@ function renderReports() {
   document.getElementById('rep-females').textContent = females;
   document.getElementById('rep-bus').textContent = busCount;
   document.getElementById('rep-total').textContent = total;
-  document.getElementById('rep-g1').textContent = g1;
-  document.getElementById('rep-g2').textContent = g2;
-  document.getElementById('rep-g3').textContent = g3;
-  document.getElementById('rep-g4').textContent = g4;
+
+  const maleGroupsBody = document.getElementById('rep-male-groups-body');
+  const femaleGroupsBody = document.getElementById('rep-female-groups-body');
+  if (maleGroupsBody && femaleGroupsBody) {
+    const maleGroups = groups.filter(g => g.gender === 'ذكر');
+    const femaleGroups = groups.filter(g => g.gender === 'أنثى');
+
+    maleGroupsBody.innerHTML = maleGroups.length === 0
+      ? '<tr><td colspan="2" style="color:#9ca3af">لا توجد أفواج</td></tr>'
+      : maleGroups.map(g => `<tr><td>${g.name}</td><td class="rep-val">${participants.filter(p => p.group === g.name).length}</td></tr>`).join('');
+
+    femaleGroupsBody.innerHTML = femaleGroups.length === 0
+      ? '<tr><td colspan="2" style="color:#9ca3af">لا توجد أفواج</td></tr>'
+      : femaleGroups.map(g => `<tr><td>${g.name}</td><td class="rep-val">${participants.filter(p => p.group === g.name).length}</td></tr>`).join('');
+  }
+
   document.getElementById('rep-reg-due').textContent = regDue + ' درهم';
   document.getElementById('rep-bus-due').textContent = busDue + ' درهم';
   document.getElementById('rep-total-due').textContent = totalDue + ' درهم';
@@ -760,12 +778,11 @@ function printReports() {
   const females = participants.filter(p => p.gender === 'أنثى').length;
   const busCount = participants.filter(p => p.bus === 'نعم').length;
   const total = participants.length;
-  const g1 = participants.filter(p => p.group.includes('الزبير')).length;
-  const g2 = participants.filter(p => p.group.includes('ابن مسعود')).length;
-  const g3 = participants.filter(p => p.group.includes('عائشة')).length;
-  const g4 = participants.filter(p => p.group.includes('أم سلمة')).length;
+  const maleGroups = groups.filter(g => g.gender === 'ذكر');
+  const femaleGroups = groups.filter(g => g.gender === 'أنثى');
   const paid = participants.reduce((s, p) => s + (p.paid || 0), 0);
   const left = participants.reduce((s, p) => s + (p.remaining || 0), 0);
+
 
   const win = window.open('', '_blank');
   win.document.write(`
@@ -801,10 +818,7 @@ function printReports() {
 
       <h2>📚 الحلقات</h2>
       <table>
-        <tr><td>الزبير بن العوام رضي الله عنه</td><td>${g1}</td></tr>
-        <tr><td>عبد الله بن مسعود رضي الله عنه</td><td>${g2}</td></tr>
-        <tr><td>أم المؤمنين عائشة رضي الله عنها</td><td>${g3}</td></tr>
-        <tr><td>أم المؤمنين أم سلمة رضي الله عنها</td><td>${g4}</td></tr>
+        ${groups.map(g => `<tr><td>${g.name}</td><td>${participants.filter(p => p.group === g.name).length}</td></tr>`).join('')}
       </table>
 
       <h2>💰 المداخيل</h2>
@@ -899,6 +913,123 @@ function selectForReceipt(id) {
 
 function closeReceiptSearch() {
   document.getElementById('receipt-search-modal').style.display = 'none';
+}
+
+// ===================== GROUPS MANAGEMENT =====================
+function renderGroupsPage() {
+  const maleBody = document.getElementById('groups-male-body');
+  const femaleBody = document.getElementById('groups-female-body');
+  if (!maleBody || !femaleBody) return;
+
+  const maleGroups = groups.filter(g => g.gender === 'ذكر');
+  const femaleGroups = groups.filter(g => g.gender === 'أنثى');
+
+  const rowHtml = g => {
+    const count = participants.filter(p => p.group === g.name).length;
+    return `
+      <div class="group-item">
+        <div class="group-item-info">
+          <div class="group-item-name">${g.name}</div>
+          <div class="group-item-count">${count} مسجل</div>
+        </div>
+        <div class="action-btns">
+          <button class="btn-edit" onclick="editGroup('${g.id}')" title="تعديل">✏️</button>
+          <button class="btn-delete" onclick="askDeleteGroup('${g.id}')" title="حذف">🗑️</button>
+        </div>
+      </div>`;
+  };
+
+  maleBody.innerHTML = maleGroups.length === 0
+    ? '<div class="empty-state"><p>لا توجد أفواج ذكور بعد</p></div>'
+    : maleGroups.map(rowHtml).join('');
+
+  femaleBody.innerHTML = femaleGroups.length === 0
+    ? '<div class="empty-state"><p>لا توجد أفواج إناث بعد</p></div>'
+    : femaleGroups.map(rowHtml).join('');
+}
+
+function openGroupForm(gender) {
+  document.getElementById('group-edit-id').value = '';
+  document.getElementById('group-name-input').value = '';
+  document.getElementById('group-gender-input').value = gender;
+  document.getElementById('group-form-title').textContent = gender === 'ذكر' ? 'إضافة فوج ذكور' : 'إضافة فوج إناث';
+  document.getElementById('group-form-modal').style.display = 'flex';
+  document.getElementById('group-name-input').focus();
+}
+
+function editGroup(id) {
+  const g = groups.find(x => x.id === id);
+  if (!g) return;
+  document.getElementById('group-edit-id').value = g.id;
+  document.getElementById('group-name-input').value = g.name;
+  document.getElementById('group-gender-input').value = g.gender;
+  document.getElementById('group-form-title').textContent = 'تعديل اسم الفوج';
+  document.getElementById('group-form-modal').style.display = 'flex';
+  document.getElementById('group-name-input').focus();
+}
+
+function closeGroupForm() {
+  document.getElementById('group-form-modal').style.display = 'none';
+}
+
+function saveGroup() {
+  const name = document.getElementById('group-name-input').value.trim();
+  const gender = document.getElementById('group-gender-input').value;
+  const editId = document.getElementById('group-edit-id').value;
+
+  if (!name) { showToast('يرجى إدخال اسم الفوج', 'error'); return; }
+
+  const duplicate = groups.find(g => g.name === name && g.id !== editId);
+  if (duplicate) { showToast('هذا الاسم مستخدم لفوج آخر', 'error'); return; }
+
+  if (editId) {
+    const g = groups.find(x => x.id === editId);
+    if (g) {
+      const oldName = g.name;
+      g.name = name;
+      // update existing participants referencing the old group name
+      participants.forEach(p => { if (p.group === oldName) p.group = name; });
+      saveData();
+      showToast('تم تحديث اسم الفوج بنجاح ✅', 'success');
+    }
+  } else {
+    const newId = 'g_' + Date.now().toString();
+    groups.push({ id: newId, name, gender });
+    showToast('تم إضافة الفوج بنجاح ✅', 'success');
+  }
+
+  saveGroups();
+  closeGroupForm();
+  renderGroupsPage();
+  updateGroups();
+  renderReports();
+}
+
+function askDeleteGroup(id) {
+  const g = groups.find(x => x.id === id);
+  if (!g) return;
+  const count = participants.filter(p => p.group === g.name).length;
+  deleteGroupTarget = id;
+  document.getElementById('group-delete-warning').textContent = count > 0
+    ? `تحذير: هذا الفوج يحتوي على ${count} مشارك مسجل. سيبقى المشاركون مسجلين لكن سيُحذف اسم الفوج من القائمة.`
+    : 'هل أنت متأكد من حذف هذا الفوج؟';
+  document.getElementById('confirm-group-modal').style.display = 'flex';
+}
+
+function confirmDeleteGroup() {
+  if (!deleteGroupTarget) return;
+  groups = groups.filter(g => g.id !== deleteGroupTarget);
+  saveGroups();
+  closeConfirmGroupModal();
+  renderGroupsPage();
+  updateGroups();
+  renderReports();
+  showToast('تم حذف الفوج بنجاح', 'success');
+}
+
+function closeConfirmGroupModal() {
+  deleteGroupTarget = null;
+  document.getElementById('confirm-group-modal').style.display = 'none';
 }
 
 // ===================== TOAST =====================
